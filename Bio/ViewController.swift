@@ -17,26 +17,28 @@ extension ViewController {
     }
 }
 
-class ViewController: UIViewController,
-                      UITableViewDelegate,
-                      UITableViewDataSource {
+class ViewController: UIViewController {
 
     private let cellId = "cell"
     private let topMargin:CGFloat = 20.0
-
-    private let tableView = UITableView()
     private var dataSource: [Dictionary<String, Any>]?
+    private let viewModel = ViewModel()
+
+    let tableView = UITableView()
+
 
     // MARK: VC Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel.viewController = self
+        viewModel.initSocket()
+
         self.view.addSubview(tableView)
         tableView.frame = CGRect(x: 0,
                                  y: topMargin,
                                  width: self.view.frame.width,
                                  height: self.view.frame.height-topMargin)
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
     }
 
@@ -49,18 +51,6 @@ class ViewController: UIViewController,
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: UI
-
-    // MARK: TableViewDelegate
-
-    // MARK: TableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
-    }
 
 
 }
