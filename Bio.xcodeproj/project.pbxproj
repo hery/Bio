@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		808C99A91A5D4A148F851E6A /* Pods_BioTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B730D173529E373E04D44F /* Pods_BioTests.framework */; };
 		C275124D740DD9FC65E93A1D /* Pods_Bio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7DAF8ABF5E69A5AB36705CB /* Pods_Bio.framework */; };
+		CA0A80021F73BC59005533FE /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A80011F73BC59005533FE /* Car.swift */; };
+		CA0A80041F73C151005533FE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A80031F73C151005533FE /* Model.swift */; };
 		CA4D092C1F6FEFC80088D153 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D092B1F6FEFC80088D153 /* ViewModel.swift */; };
-		CA4D092E1F6FEFD40088D153 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D092D1F6FEFD40088D153 /* Model.swift */; };
 		CAF9E3FB1F6FD79400EDF1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */; };
 		CAF9E3FD1F6FD79400EDF1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */; };
 		CAF9E4001F6FD79400EDF1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAF9E3FE1F6FD79400EDF1A5 /* Main.storyboard */; };
@@ -35,8 +36,9 @@
 		A0A50AD8844A7683DAF8F3CE /* Pods-BioTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BioTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BioTests/Pods-BioTests.release.xcconfig"; sourceTree = "<group>"; };
 		A4C45BB468F425EB6A8C2E08 /* Pods-Bio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bio.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bio/Pods-Bio.release.xcconfig"; sourceTree = "<group>"; };
 		B7B730D173529E373E04D44F /* Pods_BioTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BioTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA0A80011F73BC59005533FE /* Car.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		CA0A80031F73C151005533FE /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		CA4D092B1F6FEFC80088D153 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		CA4D092D1F6FEFD40088D153 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		CAF9E3F71F6FD79400EDF1A5 /* Bio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,9 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */,
-				CA4D092D1F6FEFD40088D153 /* Model.swift */,
 				CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */,
 				CA4D092B1F6FEFC80088D153 /* ViewModel.swift */,
+				CA0A80011F73BC59005533FE /* Car.swift */,
+				CA0A80031F73C151005533FE /* Model.swift */,
 				CAF9E3FE1F6FD79400EDF1A5 /* Main.storyboard */,
 				CAF9E4011F6FD79400EDF1A5 /* Assets.xcassets */,
 				CAF9E4031F6FD79400EDF1A5 /* LaunchScreen.storyboard */,
@@ -360,10 +363,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA0A80041F73C151005533FE /* Model.swift in Sources */,
 				CAF9E3FD1F6FD79400EDF1A5 /* ViewController.swift in Sources */,
 				CA4D092C1F6FEFC80088D153 /* ViewModel.swift in Sources */,
+				CA0A80021F73BC59005533FE /* Car.swift in Sources */,
 				CAF9E3FB1F6FD79400EDF1A5 /* AppDelegate.swift in Sources */,
-				CA4D092E1F6FEFD40088D153 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

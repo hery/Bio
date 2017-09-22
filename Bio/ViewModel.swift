@@ -18,13 +18,10 @@ import RxSwift
 class ViewModel: NSObject {
 
     private let socket = WebSocket(url: URL(string: "wss://pbbouachour.fr/openSocket")!)
-    private let disposeBag = DisposeBag()
     private let writeSubject = PublishSubject<String>()
 
-    weak var viewController: ViewController?
-
-    // Bind this to tableView
-    var carsList: [Dictionary<String, String>]?
+    let disposeBag = DisposeBag()
+    var carsList: Variable<[Car]> = Variable([])
 
     func initSocket() {
         self.observeEvents()
@@ -34,7 +31,6 @@ class ViewModel: NSObject {
         socket.rx.response.subscribe(onNext: { (response: WebSocketEvent) in
             switch response {
                 case .connected:
-                    // Get car list
                     print("Connected. Getting cars list.")
                     self.getCarList()
                 case .data(let data):
@@ -121,26 +117,14 @@ class ViewModel: NSObject {
     }
 
     func parseCarsList(_ carsList: [Dictionary<String, Any>]) {
-        /**
-         Payload: [
-                      {"Brand":"Aston Martin",
-                        "Name":"Mini Cooper",
-                        "SpeedMax":180,
-                        "Cv":163,
-                        "CurrentSpeed":0}, ...
-
-         */
         if carsList.count < 1 {
             print("Invalid/empty car list payload")
             return
         }
         let keys = Set(carsList[0].keys)
-        if (keys == Set(["Brand", "Name", "SpeedMax", "Cv", "CurrentSpeed"])) {
-            // Should check if every key is always provided,
-            // if not, only check for the ones that are
-            // If yes, we have a valid car list payload, let's bind it to our table view
-            print("Our first car is \(carsList[0])")
+        if (keys == Car.keys()) {
+            let carsListArray = Car.carsFromJson(json: carsList)
+            self.carsList.value = carsListArray
         }
-
     }
 }
