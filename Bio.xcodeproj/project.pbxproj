@@ -10,8 +10,8 @@
 		808C99A91A5D4A148F851E6A /* Pods_BioTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B730D173529E373E04D44F /* Pods_BioTests.framework */; };
 		C275124D740DD9FC65E93A1D /* Pods_Bio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7DAF8ABF5E69A5AB36705CB /* Pods_Bio.framework */; };
 		CA0A80021F73BC59005533FE /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A80011F73BC59005533FE /* Car.swift */; };
-		CA0A80041F73C151005533FE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0A80031F73C151005533FE /* Model.swift */; };
 		CA4D092C1F6FEFC80088D153 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D092B1F6FEFC80088D153 /* ViewModel.swift */; };
+		CAF0C5A71F766217006204B3 /* CarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF0C5A61F766217006204B3 /* CarTableViewCell.swift */; };
 		CAF9E3FB1F6FD79400EDF1A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */; };
 		CAF9E3FD1F6FD79400EDF1A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */; };
 		CAF9E4001F6FD79400EDF1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAF9E3FE1F6FD79400EDF1A5 /* Main.storyboard */; };
@@ -37,8 +37,8 @@
 		A4C45BB468F425EB6A8C2E08 /* Pods-Bio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bio.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bio/Pods-Bio.release.xcconfig"; sourceTree = "<group>"; };
 		B7B730D173529E373E04D44F /* Pods_BioTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BioTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA0A80011F73BC59005533FE /* Car.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
-		CA0A80031F73C151005533FE /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		CA4D092B1F6FEFC80088D153 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		CAF0C5A61F766217006204B3 /* CarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarTableViewCell.swift; sourceTree = "<group>"; };
 		CAF9E3F71F6FD79400EDF1A5 /* Bio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +81,43 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CAF0C5A21F7661BB006204B3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */,
+				CAF0C5A61F766217006204B3 /* CarTableViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		CAF0C5A31F7661C1006204B3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CA0A80011F73BC59005533FE /* Car.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		CAF0C5A41F7661C6006204B3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CA4D092B1F6FEFC80088D153 /* ViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		CAF0C5A51F7661E8006204B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */,
+				CAF9E3FE1F6FD79400EDF1A5 /* Main.storyboard */,
+				CAF9E4011F6FD79400EDF1A5 /* Assets.xcassets */,
+				CAF9E4061F6FD79400EDF1A5 /* Info.plist */,
+				CAF9E4031F6FD79400EDF1A5 /* LaunchScreen.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		CAF9E3EE1F6FD79400EDF1A5 = {
 			isa = PBXGroup;
 			children = (
@@ -104,15 +141,10 @@
 		CAF9E3F91F6FD79400EDF1A5 /* Bio */ = {
 			isa = PBXGroup;
 			children = (
-				CAF9E3FA1F6FD79400EDF1A5 /* AppDelegate.swift */,
-				CAF9E3FC1F6FD79400EDF1A5 /* ViewController.swift */,
-				CA4D092B1F6FEFC80088D153 /* ViewModel.swift */,
-				CA0A80011F73BC59005533FE /* Car.swift */,
-				CA0A80031F73C151005533FE /* Model.swift */,
-				CAF9E3FE1F6FD79400EDF1A5 /* Main.storyboard */,
-				CAF9E4011F6FD79400EDF1A5 /* Assets.xcassets */,
-				CAF9E4031F6FD79400EDF1A5 /* LaunchScreen.storyboard */,
-				CAF9E4061F6FD79400EDF1A5 /* Info.plist */,
+				CAF0C5A41F7661C6006204B3 /* ViewModel */,
+				CAF0C5A31F7661C1006204B3 /* Model */,
+				CAF0C5A21F7661BB006204B3 /* View */,
+				CAF0C5A51F7661E8006204B3 /* Supporting Files */,
 			);
 			path = Bio;
 			sourceTree = "<group>";
@@ -290,6 +322,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxStarscream/RxStarscream.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -297,6 +330,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxStarscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,11 +397,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA0A80041F73C151005533FE /* Model.swift in Sources */,
 				CAF9E3FD1F6FD79400EDF1A5 /* ViewController.swift in Sources */,
 				CA4D092C1F6FEFC80088D153 /* ViewModel.swift in Sources */,
 				CA0A80021F73BC59005533FE /* Car.swift in Sources */,
 				CAF9E3FB1F6FD79400EDF1A5 /* AppDelegate.swift in Sources */,
+				CAF0C5A71F766217006204B3 /* CarTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

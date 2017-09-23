@@ -31,13 +31,15 @@ class ViewModel: NSObject {
         socket.rx.response.subscribe(onNext: { (response: WebSocketEvent) in
             switch response {
                 case .connected:
-                    print("Connected. Getting cars list.")
+                    print("Connected.")
+                    print("Getting cars list.")
                     self.getCarList()
                 case .data(let data):
                     print("Got data \(data)")
                 case .disconnected(let error):
                     print("Error \(String(describing: error))")
                 case .message(let msg):
+                    print("Got message\(msg)")
                     self.handleMessage(msg)
                 case .pong:
                     print("Pong")
@@ -50,6 +52,55 @@ class ViewModel: NSObject {
         self.socket.connect()
     }
 
+    // MARK: WebSocket Messages
+    func handleMessage(_ message: String) {
+        guard let data = message.data(using: .utf8) else {
+            print("Error converting message to data")
+            return
+        }
+
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
+            print("Error converting message data to JSON")
+            return
+        }
+
+        // If it's a list, it has to be a list of cars
+        if let carsList = json as? [Dictionary<String, Any>] {
+            self.parseCarsList(carsList)
+            return
+        }
+
+        // If it's a single item, it's a speed update
+        if let carPayload = json as? Dictionary<String, Any> {
+            self.parseCarSpeedPayload(carPayload)
+            return
+        }
+
+        // We shouldn't get up to here
+        print("Not sure what kind of payload we got here...")
+        
+    }
+
+    func getCarList() {
+        let payload = self.getCarListPayload()
+        self.sendJSON(message: payload)
+    }
+
+    func startCar(_ name: String) {
+        let payload = self.startCarSpeedPayload(name)
+        self.sendJSON(message: payload)
+    }
+
+    func stopCar(_ name: String) {
+
+    }
+
+    func stopLastCar() {
+        let payload = self.stopPreviousCarPayload()
+        self.sendJSON(message: payload)
+    }
+
+    // MARK: Websocket Messages Utility
     func sendString(message: String) {
         socket.write(string: message)
     }
@@ -61,14 +112,16 @@ class ViewModel: NSObject {
         }
     }
 
-    func getCarList() {
-        let payload = self.getCarListPayload()
-        self.sendJSON(message: payload)
-    }
-
     func getCarListPayload() -> Dictionary<String, Any> {
         var payload:Dictionary<String, Any> = [:]
         payload["Type"] = "infos"
+        payload["UserToken"] = 42
+        return payload
+    }
+
+    func stopPreviousCarPayload() -> Dictionary<String, Any> {
+        var payload:Dictionary<String, Any> = [:]
+        payload["Type"] = "stop"
         payload["UserToken"] = 42
         return payload
     }
@@ -84,36 +137,15 @@ class ViewModel: NSObject {
         return payload
     }
 
-    func stopPreviousCarPayload() -> Dictionary<String, Any> {
+    func stopCarPayload(_ name: String) -> Dictionary<String, Any> {
         var payload:Dictionary<String, Any> = [:]
         payload["Type"] = "stop"
         payload["UserToken"] = 42
+
+        var payloadPayload:Dictionary<String, Any> = [:]
+        payloadPayload["Name"] = name
+        payload["Payload"] = payloadPayload
         return payload
-    }
-
-    func handleMessage(_ message: String) {
-        // Try different deserialization methos since there's no message type key
-        // in the server payload
-        guard let data = message.data(using: .utf8) else {
-            print("Error converting message to data")
-            return
-        }
-
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {
-            print("Error converting message data to JSON")
-            return
-        }
-
-        if let carsList = json as? [Dictionary<String, Any>] {
-            // Proper type, still need to check for keys
-            // try to parse cars list
-            self.parseCarsList(carsList)
-            return // if success
-        }
-
-        // We shouldn't get up to here
-        print("Not sure what kind of payload we got here...")
-
     }
 
     func parseCarsList(_ carsList: [Dictionary<String, Any>]) {
@@ -126,5 +158,17 @@ class ViewModel: NSObject {
             let carsListArray = Car.carsFromJson(json: carsList)
             self.carsList.value = carsListArray
         }
+    }
+
+    func parseCarSpeedPayload(_ message: Dictionary<String, Any>) {
+    /**
+        {
+            "Brand":"Aston Martin",
+            "Name":"Mini Cooper",
+            "SpeedMax":180,
+            "Cv":163,
+            "CurrentSpeed":1.63}
+        }
+    */
     }
 }

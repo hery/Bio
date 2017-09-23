@@ -4,6 +4,7 @@ target 'Bio' do
   pod 'RxSwift',    '~> 3.0'
   pod 'RxCocoa',    '~> 3.0'
   pod 'RxStarscream'
+  pod 'SnapKit', '~> 3.0.0'
 end
 
 # RxTests and RxBlocking make the most sense in the context of unit/integration tests
