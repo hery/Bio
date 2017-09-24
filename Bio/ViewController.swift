@@ -68,9 +68,19 @@ class ViewController: UIViewController {
         let headerLabel = UILabel()
         headerLabel.backgroundColor = UIColor.darkGrey()
         headerLabel.frame.size = CGSize(width: UIScreen.main.bounds.size.width, height: 80)
+        headerLabel.font = UIFont.systemFont(ofSize: 13)
         headerLabel.textColor = UIColor.white
-        headerLabel.text = "Tap a car to start it, tap again to stop it."
+        headerLabel.text = "Tap a car to start it, tap again to stop it,\n or tap here to stop the last started car."
         headerLabel.textAlignment = .center
+        headerLabel.numberOfLines = 0
+        headerLabel.isUserInteractionEnabled = true
+
+        let tapGesture = UITapGestureRecognizer()
+        headerLabel.addGestureRecognizer(tapGesture)
+        tapGesture.rx.event.bind { (_) in
+            self.viewModel.stopLastCar()
+        }.disposed(by: viewModel.disposeBag)
+
         return headerLabel
     }
 
