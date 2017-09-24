@@ -13,8 +13,7 @@ class CarTableViewCell: UITableViewCell {
 
     let carLabel = UILabel()
     let speedLabel = UILabel()
-    let startButton = UIButton()
-    let stopButton = UIButton()
+    let statusLabel = UIButton()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,20 +37,13 @@ class CarTableViewCell: UITableViewCell {
             make.centerY.equalTo(self.contentView)
         }
 
-        self.prepareButton(self.startButton, with: UIColor.green)
-        self.contentView.addSubview(self.startButton)
-        self.startButton.setTitle("START", for: .normal)
-        self.startButton.snp.makeConstraints { (make) in
+        self.prepareButton(self.statusLabel, with: UIColor.lightGray)
+        self.contentView.addSubview(self.statusLabel)
+        self.statusLabel.setTitle("STOPPED", for: .normal)
+        self.statusLabel.isUserInteractionEnabled = false
+        self.statusLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.carLabel.snp.bottom).offset(5)
             make.left.equalTo(self.carLabel)
-        }
-
-        self.prepareButton(self.stopButton, with: UIColor.red)
-        self.contentView.addSubview(self.stopButton)
-        self.stopButton.setTitle("STOP", for: .normal)
-        self.stopButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.startButton)
-            make.left.equalTo(self.startButton.snp.right).offset(5)
         }
     }
 

@@ -15,6 +15,7 @@ class Car {
     var speedMax: Int?
     var cv: Int?
     var currentSpeed: Int?
+    var started = false
 
     init(json:Dictionary<String, Any>) {
         self.brand = json["Brand"] as? String
@@ -22,6 +23,14 @@ class Car {
         self.speedMax = json["SpeedMax"] as? Int
         self.cv = json["Cv"] as? Int
         self.currentSpeed = json["CurrentSpeed"] as? Int
+    }
+
+    class func printCarsDescription(_ cars: [Car]) {
+        print("===")
+        for car in cars {
+            print("\(car.description()) (\(car.started))")
+        }
+        print("===")
     }
 
     class func carsFromJson(json: [Dictionary<String, Any>]) -> [Car] {
@@ -38,6 +47,31 @@ class Car {
 
     class func speedKeys() -> Set<String> {
         return Set(["Brand", "Name", "SpeedMax", "Cv", "CurrentSpeed"])
+    }
+
+    class func getCarListPayload() -> Dictionary<String, Any> {
+        var payload:Dictionary<String, Any> = [:]
+        payload["Type"] = "infos"
+        payload["UserToken"] = 42
+        return payload
+    }
+
+    class func stopPreviousCarPayload() -> Dictionary<String, Any> {
+        var payload:Dictionary<String, Any> = [:]
+        payload["Type"] = "stop"
+        payload["UserToken"] = 42
+        return payload
+    }
+
+    class func startCarSpeedPayload(_ name: String) -> Dictionary<String, Any> {
+        var payload:Dictionary<String, Any> = [:]
+        payload["Type"] = "start"
+        payload["UserToken"] = 42
+
+        var payloadPayload:Dictionary<String, Any> = [:]
+        payloadPayload["Name"] = name
+        payload["Payload"] = payloadPayload
+        return payload
     }
 
     func description() -> String {

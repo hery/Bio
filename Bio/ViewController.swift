@@ -67,9 +67,9 @@ class ViewController: UIViewController {
     func tableViewHeader() -> UIView {
         let headerLabel = UILabel()
         headerLabel.backgroundColor = UIColor.darkGrey()
-        headerLabel.frame.size = CGSize(width: UIScreen.main.bounds.size.width, height: 50)
+        headerLabel.frame.size = CGSize(width: UIScreen.main.bounds.size.width, height: 80)
         headerLabel.textColor = UIColor.white
-        headerLabel.text = "Tap a car to start it"
+        headerLabel.text = "Tap a car to start it, tap again to stop it."
         headerLabel.textAlignment = .center
         return headerLabel
     }
@@ -78,10 +78,17 @@ class ViewController: UIViewController {
     func setUpDataSource() {
         viewModel.carsList.asObservable().bind(to: tableView.rx.items(cellIdentifier: cellId)) { (row, car, cell) in
             let cell = cell as? CarTableViewCell
+            cell?.selectionStyle = .none
             cell?.carLabel.text = car.description()
             cell?.carLabel.textColor = UIColor.darkGrey()
             cell?.speedLabel.text = car.speed()
-       }.disposed(by: viewModel.disposeBag)
+            let status = car.started ? "RUNNING" : "STOPPED"
+            let statusColor = car.started ? UIColor.green : UIColor.lightGrey()
+            cell?.statusLabel.backgroundColor = statusColor
+            cell?.statusLabel.setTitle(status, for: .normal)
+
+       }
+       .disposed(by: viewModel.disposeBag)
     }
 
     func observeCarSelection() {
@@ -90,13 +97,17 @@ class ViewController: UIViewController {
                 print("Invalid index \(row)")
             }
             let car = self.viewModel.carsList.value[row.row]
-            if let name = car.name {
-                print("Starting car \(car.description())")
-                self.viewModel.startCar(name)
+            print("--> Selected car \(car.description()), started: \(car.started)")
+            // If the car we selected is already running,
+            // We just stop it.
+            if car.started {
+                self.viewModel.stopLastCar()
             } else {
-                print("Missing name for car \(car). Can't start it.")
+            // If a car is currently running,
+            // startCar will stop it and start the selected one.
+                self.viewModel.startCar(car)
             }
-            print("Disposed item selection observer")
+            Car.printCarsDescription(self.viewModel.carsList.value)
         }).disposed(by: viewModel.disposeBag)
     }
 }

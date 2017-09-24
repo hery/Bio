@@ -22,7 +22,10 @@ class ViewModel: NSObject {
 
     let disposeBag = DisposeBag()
     var carsList: Variable<[Car]> = Variable([])
+    var currentCar: Car?
+    var indexMap:Dictionary<String, Int>?
 
+    // MARK: WebSocket Messages + Events
     func initSocket() {
         self.observeEvents()
     }
@@ -52,7 +55,6 @@ class ViewModel: NSObject {
         self.socket.connect()
     }
 
-    // MARK: WebSocket Messages
     func handleMessage(_ message: String) {
         guard let data = message.data(using: .utf8) else {
             print("Error converting message to data")
@@ -82,22 +84,43 @@ class ViewModel: NSObject {
     }
 
     func getCarList() {
-        let payload = self.getCarListPayload()
+        let payload = Car.getCarListPayload()
         self.sendJSON(message: payload)
     }
 
-    func startCar(_ name: String) {
-        let payload = self.startCarSpeedPayload(name)
+    func startCar(_ car: Car) {
+        print("<Starting car \(car.description())>")
+        guard let name = car.name else {
+            print("Can't start car \(car.description()). Missing name.")
+            return
+        }
+
+        if let _ = self.currentCar {
+            // We stop the last car now or we won't be able
+            // to stop it later
+            self.stopLastCar()
+        }
+
+        let payload = Car.startCarSpeedPayload(name)
         self.sendJSON(message: payload)
-    }
 
-    func stopCar(_ name: String) {
-
+        car.started = true
+        self.currentCar = car
     }
 
     func stopLastCar() {
-        let payload = self.stopPreviousCarPayload()
+        print("Stopping last started car")
+        let payload = Car.stopPreviousCarPayload()
         self.sendJSON(message: payload)
+
+        if let indexMap = self.indexMap,
+           let currentCar = self.currentCar,
+           let name = currentCar.name,
+           let index = indexMap[name] {
+           self.carsList.value[index].started = false
+        }
+
+        self.currentCar = nil
     }
 
     // MARK: Websocket Messages Utility
@@ -106,46 +129,11 @@ class ViewModel: NSObject {
     }
 
     func sendJSON(message: [String: Any]) {
+        print("Sending message \(message)")
         let jsonMessage = try? JSONSerialization.data(withJSONObject: message, options: .prettyPrinted)
         if let jsonMessage = jsonMessage {
             socket.write(data: jsonMessage)
         }
-    }
-
-    func getCarListPayload() -> Dictionary<String, Any> {
-        var payload:Dictionary<String, Any> = [:]
-        payload["Type"] = "infos"
-        payload["UserToken"] = 42
-        return payload
-    }
-
-    func stopPreviousCarPayload() -> Dictionary<String, Any> {
-        var payload:Dictionary<String, Any> = [:]
-        payload["Type"] = "stop"
-        payload["UserToken"] = 42
-        return payload
-    }
-
-    func startCarSpeedPayload(_ name: String) -> Dictionary<String, Any> {
-        var payload:Dictionary<String, Any> = [:]
-        payload["Type"] = "start"
-        payload["UserToken"] = 42
-
-        var payloadPayload:Dictionary<String, Any> = [:]
-        payloadPayload["Name"] = name
-        payload["Payload"] = payloadPayload
-        return payload
-    }
-
-    func stopCarPayload(_ name: String) -> Dictionary<String, Any> {
-        var payload:Dictionary<String, Any> = [:]
-        payload["Type"] = "stop"
-        payload["UserToken"] = 42
-
-        var payloadPayload:Dictionary<String, Any> = [:]
-        payloadPayload["Name"] = name
-        payload["Payload"] = payloadPayload
-        return payload
     }
 
     func parseCarsList(_ carsList: [Dictionary<String, Any>]) {
@@ -155,8 +143,8 @@ class ViewModel: NSObject {
         }
         let keys = Set(carsList[0].keys)
         if (keys == Car.keys()) {
-            let carsListArray = Car.carsFromJson(json: carsList)
-            self.carsList.value = carsListArray
+            self.carsList.value = Car.carsFromJson(json: carsList)
+            self.indexMap = Car.indexMap(self.carsList.value)
         }
     }
 
@@ -170,5 +158,14 @@ class ViewModel: NSObject {
             "CurrentSpeed":1.63}
         }
     */
+        if let carName = message["Name"] as? String, let indexMap = self.indexMap {
+            if let index = indexMap[carName] {
+                // We need to persist the local value of `started`
+                let oldCar = self.carsList.value[index]
+                let newCar = Car(json: message)
+                newCar.started = oldCar.started
+                self.carsList.value[index] = newCar
+            }
+        }
     }
 }
